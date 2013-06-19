@@ -14,7 +14,9 @@ Uses Aria2c to download the files and pacman to update.
 Planned:
 Currently there is no logging, serial numbering for the updates.
 Providing option for no sync
-=======
+
+
+========
 Version 0.01-2
 
 Adding serial numbering during display of the updates
