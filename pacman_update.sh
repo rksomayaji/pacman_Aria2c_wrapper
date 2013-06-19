@@ -2,9 +2,7 @@ COL_LENGTH=$(tput cols)
 ONE_THIRD=$(($COL_LENGTH/3))
 HALF=$(($COL_LENGTH/2))
 TEMP_FILE=update.$(date +"%d%m%Y%H%M%S")
-NO_FILES=0
-echo $COL_LENGTH
-echo $ONE_THIRD
+NO_FILES=1
 echo $TEMP_FILE
 
 pacman -Sy
@@ -18,10 +16,10 @@ printf "\n"
 
 pacman -Sup --print-format "%n %v %r" | while read line
 do 
-	NAME=$(echo $line | cut -d ' ' -f 1)
+	NAME="$NO_FILES:$(echo $line | cut -d ' ' -f 1)"
 	VERSION=$(echo $line | cut -d ' ' -f 2)
 	REPOS=$(echo $line | cut -d ' ' -f 3)
-	if [ "$NAME" = "::" ]
+	if [ "$NAME" = "1:::" ]
 	then
 		for i in $(eval echo {1..$COL_LENGTH})
 		do
@@ -29,8 +27,11 @@ do
 		done
 	else
 		printf "%s%*s%*s\n" $NAME $(($HALF-$(expr length $NAME))) $VERSION $HALF $REPOS
+		((NO_FILES=NO_FILES+1))
 	fi
 done
+
+#echo $NO_FILES
 
 select result in Yes No
 do
