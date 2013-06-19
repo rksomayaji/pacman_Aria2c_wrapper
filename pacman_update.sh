@@ -16,22 +16,22 @@ printf "\n"
 
 pacman -Sup --print-format "%n %v %r" | while read line
 do 
-	NAME="$NO_FILES:$(echo $line | cut -d ' ' -f 1)"
+	NAME="$NO_FILES) $(echo $line | cut -d ' ' -f 1)"
 	VERSION=$(echo $line | cut -d ' ' -f 2)
 	REPOS=$(echo $line | cut -d ' ' -f 3)
-	if [ "$NAME" = "1:::" ]
+	if [ "$NAME" = "1) ::" ]
 	then
 		for i in $(eval echo {1..$COL_LENGTH})
 		do
         		printf "%s" "="
 		done
 	else
-		printf "%s%*s%*s\n" $NAME $(($HALF-$(expr length $NAME))) $VERSION $HALF $REPOS
+		printf "%s%*s%*s\n" "$NAME" $(($HALF-${#NAME})) $VERSION $HALF $REPOS
 		((NO_FILES=NO_FILES+1))
 	fi
 done
 
-#echo $NO_FILES
+printf "\n"
 
 select result in Yes No
 do
