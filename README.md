@@ -22,4 +22,5 @@ Version 0.01-2
 Adding serial numbering during display of the updates
 
 Can't display as yet total number of updates. Will merge with master after solving this.
+
 >>>>>>> 68b50e6442ae811b49c0dcc0dc55d83a0dfcb44f
