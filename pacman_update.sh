@@ -27,11 +27,13 @@ do
 		done
 	else
 		printf "%s%*s%*s\n" "$NAME" $(($HALF-${#NAME})) $VERSION $HALF $REPOS
-		((NO_FILES=NO_FILES+1))
+		echo $NO_FILES > /tmp/total_upgrades
+		NO_FILES=$(($NO_FILES+1))
 	fi
 done
 
-printf "\n"
+printf "\n%s%s\n\n" $(cat /tmp/total_upgrades) " files to be upgraded."
+rm /tmp/total_upgrades
 
 select result in Yes No
 do
