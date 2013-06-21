@@ -26,3 +26,4 @@ Planned:
 Logging
 Saving previous updates as compressed tar file to save space.
 Providing option for no sync
+Using mirrors
