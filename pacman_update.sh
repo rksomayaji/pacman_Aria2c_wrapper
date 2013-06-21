@@ -7,12 +7,17 @@ echo $TEMP_FILE
 
 pacman -Sy
 
+printf "\n"
+
 for i in $(eval echo {1..$COL_LENGTH})
 do 
 	printf "%s" "="
 done
 
 printf "\n"
+tput bold
+printf "%*s%*s%*s\n" 5 "Program" $(($HALF-7)) "Version" $HALF "Repository"
+tput sgr0
 
 pacman -Sup --print-format "%n %v %r" | while read line
 do 
@@ -32,6 +37,11 @@ do
 	fi
 done
 
+for i in $(eval echo {1..$COL_LENGTH})
+do 
+    printf "%s" "="
+done
+printf "\n"
 printf "\n%s%s\n\n" $(cat /tmp/total_upgrades) " files to be upgraded."
 rm /tmp/total_upgrades
 
