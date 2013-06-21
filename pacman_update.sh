@@ -41,6 +41,7 @@ for i in $(eval echo {1..$COL_LENGTH})
 do 
     printf "%s" "="
 done
+
 printf "\n"
 printf "\n%s%s\n\n" $(cat /tmp/total_upgrades) " files to be upgraded."
 rm /tmp/total_upgrades
