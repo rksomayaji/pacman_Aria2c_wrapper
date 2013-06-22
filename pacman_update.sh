@@ -1,5 +1,4 @@
 COL_LENGTH=$(tput cols)
-ONE_THIRD=$(($COL_LENGTH/3))
 HALF=$(($COL_LENGTH/2))
 TEMP_FILE=update.$(date +"%d%m%Y%H%M%S")
 NO_FILES=1
