@@ -2,8 +2,21 @@ COL_LENGTH=$(tput cols)
 ONE_THIRD=$(($COL_LENGTH/3))
 HALF=$(($COL_LENGTH/2))
 UPDATE_FILE=update.$(date +"%d%m%Y%H%M%S")
+TEMP_FILE=/tmp/total_upgrades.$$.$RANDOM
 NO_FILES=1
-echo $NO_FILES > /tmp/total_upgrades
+echo $NO_FILES > $TEMP_FILE
+
+function clean_up {
+    echo "User interrupted update. Aborting..." 1>&2
+    if [ -e "/var/cache/pacman/$UPDATE_FILE.d/$UPDATE_FILE" ]
+    then
+        rm -rf /var/cache/pacman/$UPDATE_FILE.d
+    fi
+    rm -f $TEMP_FILE
+    exit 1
+}
+
+trap clean_up 1 2 15
 
 pacman -Sy
 
@@ -32,7 +45,7 @@ do
 		done
 	else
 		printf "%s%*s%*s\n" "$NAME" $(($HALF-${#NAME})) $VERSION $HALF $REPOS
-        echo $NO_FILES > /tmp/total_upgrades
+        echo $NO_FILES > $TEMP_FILE
         NO_FILES=$(($NO_FILES+1))
     fi
 done
@@ -42,18 +55,18 @@ do
     printf "%s" "="
 done
 
-NO_UPDATES=$(cat /tmp/total_upgrades)
+NO_UPDATES=$(cat $TEMP_FILE)
 
 if [ "$NO_UPDATES" = "1" ]
 then
     printf "\n\n"
     echo "No upgrades present at the moment..."
-    rm /tmp/total_upgrades
+    rm $TEMP_FILE
     exit 1
 else
     printf "\n"
     printf "\n%s%s\n\n" $NO_UPDATES " files to be upgraded."
-    rm /tmp/total_upgrades
+    rm $TEMP_FILE
 
     select result in Yes No
     do
